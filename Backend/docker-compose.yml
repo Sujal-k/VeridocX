@@ -1,0 +1,115 @@
+version: "3.8"
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: veridocx_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: veridocx_phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    env_file:
+      - .env
+    environment:
+      SERVER_PORT: ${USER_SERVER_PORT}
+      DB_URL: ${USER_DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SPRING_APPLICATION_NAME: user-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql
+
+  document-service:
+    build: ./document-service
+    container_name: document-service
+    env_file:
+      - .env
+    environment:
+      SERVER_PORT: ${DOCUMENT_SERVER_PORT}
+      DB_URL: ${DOCUMENT_DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DOCUMENT_UPLOAD_DIR: ${DOCUMENT_UPLOAD_DIR}
+      JWT_SECRET: ${JWT_SECRET}
+      SPRING_APPLICATION_NAME: document-service
+      AUDIT_SERVICE_URL: http://audit-service:8085
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./uploads:/veridocx/uploads
+    depends_on:
+      - mysql
+      - audit-service
+
+  audit-service:
+    build: ./audit-service
+    container_name: audit-service
+    env_file:
+      - .env
+    environment:
+      SERVER_PORT: ${AUDIT_SERVER_PORT}
+      DB_URL: ${AUDIT_DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SPRING_APPLICATION_NAME: audit-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - mysql
+
+  verification-service:
+    build: ./verification-service
+    container_name: verification-service
+    env_file:
+      - .env
+    environment:
+      SERVER_PORT: ${VERIFICATION_SERVER_PORT}
+      DB_URL: ${VERIFICATION_DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SPRING_APPLICATION_NAME: verification-service
+      AUDIT_SERVICE_URL: http://audit-service:8085
+      DOCUMENT_SERVICE_URL: http://document-service:8083
+    ports:
+      - "8084:8084"
+    depends_on:
+      - mysql
+      - document-service
+      - audit-service
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-service
+      - document-service
+      - verification-service
+      - audit-service
+
+volumes:
+  mysql_data:

@@ -1,0 +1,109 @@
+/* layout.css */
+
+/* 1. Reset root to prevent any default Vite/React gaps */
+#root {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+/* 2. Main Container - No gaps between sidebar and content */
+.app-container {
+    display: flex !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #020617;
+    overflow: hidden !important;
+}
+
+/* 3. Sidebar - Fixed width, no shrinking */
+.sidebar {
+    width: 260px !important;
+    height: 100vh !important;
+    flex-shrink: 0 !important;
+    background-color: #0f172a !important;
+    border-right: 1px solid #1e293b;
+    display: flex !important;
+    flex-direction: column !important; /* CRITICAL: Forces vertical stack */
+    padding: 24px !important;
+    box-sizing: border-box;
+}/* sidebar navigation list */
+.sidebar-nav {
+    display: flex !important;
+    flex-direction: column !important; /* CRITICAL: Forces links to go down */
+    gap: 10px; /* Spacing between buttons */
+    flex-grow: 1;
+    margin-top: 20px;
+}
+
+/* Individual Link Styling */
+.sidebar-nav a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px;
+    padding: 12px;
+    color: #e2eaf4;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.2s;
+    width: 100%; /* Ensures they take full sidebar width */
+}
+
+.sidebar-nav a:hover {
+    background-color: #1e293b;
+    color: #38bdf8;
+}
+
+/* Logout button fix */
+.logout-btn {
+    margin-top: auto !important; /* Pushes button to the very bottom */
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px;
+    background: none;
+    border: none;
+    color: #f87171;
+    cursor: pointer;
+    padding: 15px 0;
+    width: fit-content; 
+}
+
+/* 4. Content Area - Fills the remaining space exactly */
+.content-area {
+    flex-grow: 1 !important;
+    min-width: 0; /* Important: prevents content from pushing the width wide */
+    height: 100vh !important;
+    background-color: #020617 !important;
+    padding: 40px !important;
+    overflow-y: auto !important; /* Only vertical scroll allowed */
+    overflow-x: hidden !important; /* Kills the right-side gap */
+    box-sizing: border-box !important;
+}
+
+/* 5. Fix the giant Logout button from your last photo */
+.logout-btn {
+    margin-top: auto !important; /* Pushes button to bottom */
+    width: fit-content !important; /* Prevents button from stretching full width */
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: none !important;
+    border: none !important;
+    color: #f87171 !important;
+    cursor: pointer !important;
+    padding: 12px 0 !important;
+    font-size: 1rem !important;
+}
+
+.logo-box{
+    color: aliceblue;
+    font-size: 2.2rem;
+}
+.logo-name{
+    color: aliceblue;
+}

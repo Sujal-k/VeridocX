@@ -1,0 +1,134 @@
+/* Container */
+.vault-container {
+  max-width: 1100px;
+  margin: 0 auto;     /* centers the page */
+  padding: 30px 20px; /* reduces extra space */
+}
+
+
+.vault-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+
+.vault-header h1 {
+  margin: 0;
+  color: #fff;
+}
+
+.vault-header p {
+  color: #9ba8c4;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #38bdf8, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Search */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0f1629;
+  border: 1px solid #1f2b46;
+  padding: 10px 14px;
+  border-radius: 10px;
+  width: 260px;
+}
+
+.search-bar input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  width: 100%;
+}
+
+/* Card */
+.vault-card {
+  background: #0b1220;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* GRID (THIS SOLVES YOUR ISSUE 🔥) */
+.vault-grid {
+  display: grid;
+  grid-template-columns: 42% 10% 14% 20% 14%;
+  padding: 16px 24px;
+  align-items: center;
+}
+
+.vault-grid.header {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #7f91b8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.vault-grid.row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+/* COLUMN ALIGNMENT */
+.vault-grid > div:nth-child(1) { text-align: left; }
+.vault-grid > div:nth-child(2) { text-align: center; }
+.vault-grid > div:nth-child(3) { text-align: center; }
+.vault-grid > div:nth-child(4) { text-align: center; }
+.vault-grid > div:nth-child(5) { text-align: center; }
+
+/* File */
+.file-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e8f0ff;
+}
+
+/* Status */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 13px;
+}
+
+.status-pill.verified {
+  background: rgba(0, 255, 160, 0.12);
+  color: #3dffb6;
+}
+
+.status-pill.tampered {
+  background: rgba(255, 70, 70, 0.12);
+  color: #ff6f6f;
+}
+
+.status-pill.pending {
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5f5;
+}
+
+/* Button */
+.icon-btn {
+  background: #6d8fec;
+  border: 1px solid #22345d;
+  padding: 6px;
+  margin-right: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: #38bdf8;
+  border-color: #38bdf8;
+}
+.vault-grid .vault-grid-row div {
+  color: #ffffff;
+}
