@@ -139,11 +139,11 @@ public class DocumentController {
         byte[] bytes = Files.readAllBytes(filePath);
 
         // 🔐 AUDIT LOG — DOCUMENT DOWNLOADED
-     try {
+   try {
     auditClient.log(
         UUID.fromString(userId),
-        AuditAction.DOCUMENT_SHARED,
-        "Shared document " + documentId + " with user " + targetUserId
+        AuditAction.DOCUMENT_DOWNLOADED,
+        "Downloaded document " + doc.getFilename() + " v" + doc.getVersion()
     );
 } catch (Exception e) {
     System.out.println("Audit failed (controller)");
@@ -187,11 +187,11 @@ public class DocumentController {
 
         service.delete(id);
 
-     try {
+ try {
     auditClient.log(
         UUID.fromString(userId),
-        AuditAction.DOCUMENT_SHARED,
-        "Shared document " + documentId + " with user " + targetUserId
+        AuditAction.DOCUMENT_DELETED,
+        "Deleted document " + id
     );
 } catch (Exception e) {
     System.out.println("Audit failed (controller)");
