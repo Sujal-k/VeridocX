@@ -57,12 +57,15 @@ public class DocumentServiceImpl implements DocumentService {
         Document saved = repo.save(doc);
 
         // 🔐 AUDIT LOG (non-blocking)
-        auditClient.log(
-                UUID.fromString(userId),
-                AuditAction.DOCUMENT_UPLOADED,
-                "Uploaded document " + filename + " v" + nextVersion
-        );
-
+     try {
+    auditClient.log(
+        UUID.fromString(userId),
+        AuditAction.DOCUMENT_UPLOADED,
+        "Uploaded document " + filename + " v" + nextVersion
+    );
+} catch (Exception e) {
+    System.out.println("Audit log failed but continuing...");
+}
         return saved;
     }
 
