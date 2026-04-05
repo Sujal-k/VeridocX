@@ -45,11 +45,6 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- File Upload -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency>
 
 		<!-- Lombok -->
 		<dependency>
