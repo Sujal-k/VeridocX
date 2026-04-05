@@ -104,11 +104,15 @@ public class DocumentController {
         shareService.shareDocument(documentId, ownerId, targetUserId);
 
         // 🔐 AUDIT LOG — DOCUMENT SHARED
-        auditClient.log(
-                UUID.fromString(ownerId),
-                AuditAction.DOCUMENT_SHARED,
-                "Shared document " + documentId + " with user " + targetUserId
-        );
+       try {
+    auditClient.log(
+        UUID.fromString(userId),
+        AuditAction.DOCUMENT_SHARED,
+        "Shared document " + documentId + " with user " + targetUserId
+    );
+} catch (Exception e) {
+    System.out.println("Audit failed (controller)");
+}
 
         return ResponseEntity.ok().build();
     }
