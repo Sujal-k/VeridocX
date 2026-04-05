@@ -139,11 +139,15 @@ public class DocumentController {
         byte[] bytes = Files.readAllBytes(filePath);
 
         // 🔐 AUDIT LOG — DOCUMENT DOWNLOADED
-        auditClient.log(
-                UUID.fromString(userId),
-                AuditAction.DOCUMENT_DOWNLOADED,
-                "Downloaded document " + doc.getFilename() + " v" + doc.getVersion()
-        );
+     try {
+    auditClient.log(
+        UUID.fromString(userId),
+        AuditAction.DOCUMENT_SHARED,
+        "Shared document " + documentId + " with user " + targetUserId
+    );
+} catch (Exception e) {
+    System.out.println("Audit failed (controller)");
+}
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
@@ -183,11 +187,15 @@ public class DocumentController {
 
         service.delete(id);
 
-        auditClient.log(
-                UUID.fromString(userId),
-                AuditAction.DOCUMENT_DELETED,
-                "Deleted document " + id
-        );
+     try {
+    auditClient.log(
+        UUID.fromString(userId),
+        AuditAction.DOCUMENT_SHARED,
+        "Shared document " + documentId + " with user " + targetUserId
+    );
+} catch (Exception e) {
+    System.out.println("Audit failed (controller)");
+}
 
         return ResponseEntity.noContent().build();
     }
