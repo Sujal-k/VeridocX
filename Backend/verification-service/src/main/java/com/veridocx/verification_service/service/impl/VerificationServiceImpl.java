@@ -86,12 +86,15 @@ public class VerificationServiceImpl implements VerificationService {
         Verification saved = repo.save(v);
 
         // 🔔 AUDIT LOG (NON-BLOCKING)
-        auditClient.log(
-                userId,
-                "DOCUMENT_VERIFIED",
-                "documentId=" + documentId + ", status=VALID"
-        );
-
+    try {
+    auditClient.log(
+        userId,
+        "DOCUMENT_VERIFIED",
+        "documentId=" + documentId + ", status=VALID"
+    );
+} catch (Exception e) {
+    System.out.println("Audit failed (verification)");
+}
         return saved;
     }
 
@@ -113,8 +116,8 @@ public class VerificationServiceImpl implements VerificationService {
         }
 
         // ✅ CORRECT DOCUMENT SERVICE PORT
-        String downloadUrl =
-                "http://document-service:8083/api/v1/documents/internal/download/" + documentId;
+String downloadUrl =
+    "https://veridocx-apigateway.onrender.com/api/v1/documents/internal/download/" + documentId;
 
         return webClient.get()
                 .uri(downloadUrl)
@@ -143,12 +146,16 @@ public class VerificationServiceImpl implements VerificationService {
         Verification saved = repo.save(v);
 
         // 🔔 AUDIT LOG FOR TAMPERED
-        auditClient.log(
-                v.getUserId(),
-                "DOCUMENT_VERIFIED",
-                "documentId=" + v.getDocumentId()
-                        + ", status=TAMPERED, reason=" + reason
-        );
+    try {
+    auditClient.log(
+        v.getUserId(),
+        "DOCUMENT_VERIFIED",
+        "documentId=" + v.getDocumentId()
+            + ", status=TAMPERED, reason=" + reason
+    );
+} catch (Exception e) {
+    System.out.println("Audit failed (verification)");
+}
 
         return saved;
     }
