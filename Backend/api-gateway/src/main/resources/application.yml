@@ -20,7 +20,7 @@ spring:
         - id: user-service
           uri: https://veridocx-backend.onrender.com   # ✅ FIXED
           predicates:
-            - Path=/api/auth/**,Path=/api/v1/users/**
+            - Path=/api/auth/**,/api/v1/users/**
 
         - id: document-service
           uri: https://veridocx-documentservice.onrender.com
