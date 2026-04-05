@@ -18,7 +18,7 @@ public class AuditClient {
     public void log(UUID userId, String action, String details) {
         try {
             webClient.post()
-                    .uri("http://audit-service:8085/api/v1/audit")
+                    .uri("https://veridocx-apigateway.onrender.com/api/v1/audit")
                     .bodyValue(new AuditRequest(userId, action, details))
                     .retrieve()
                     .toBodilessEntity()
