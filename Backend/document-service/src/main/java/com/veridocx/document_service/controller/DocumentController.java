@@ -104,9 +104,9 @@ public class DocumentController {
         shareService.shareDocument(documentId, ownerId, targetUserId);
 
         // 🔐 AUDIT LOG — DOCUMENT SHARED
-       try {
+      try {
     auditClient.log(
-        UUID.fromString(userId),
+        UUID.fromString(ownerId),  
         AuditAction.DOCUMENT_SHARED,
         "Shared document " + documentId + " with user " + targetUserId
     );
